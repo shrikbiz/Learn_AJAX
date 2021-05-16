@@ -7,6 +7,7 @@
     <!-- <button id="button" type="button">Click here</button> -->
     <div id="main-container" class="main-container">
       <button id="button">AJAX</button>
+      <div id="text"></div>
     </div>
 
     <script>
@@ -20,7 +21,14 @@
         xhr.open("GET", "sample.txt");
 
         xhr.onload = function () {
-          if (this.status == 200) console.log(this.responseText);
+          if (this.status == 200) {
+            document.getElementById("text").innerHTML = this.responseText;
+          } else if (this.status === 404) {
+            let text = document.getElementById("text");
+            text.style.background = "red";
+            text.style.color = "white";
+            text.innerHTML = "File not found";
+          }
         };
 
         //old way of calling ajax
@@ -31,8 +39,17 @@
             console.log("response: ", this.response);
         };
 
+        //handle on progress //like loader
         xhr.onprogress = function () {
           console.log("on progress", this.readyState); //3: processing request
+        };
+
+        //handle error
+
+        xhr.onerror = function () {
+          let text = document.getElementById("text");
+          text.style.color = "red";
+          text.innerHTML = "Request Error";
         };
 
         //sends request
