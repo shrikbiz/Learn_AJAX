@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <title>Document</title>
-    <script src="index.js"></script>
   </head>
   <body>
     <!-- <button id="button" type="button">Click here</button> -->
@@ -14,8 +13,41 @@
       document.getElementById("button").addEventListener("click", onClick);
 
       function onClick() {
-        
+        let xhr = new XMLHttpRequest();
+
+        //xhr.open(typeOfRequest, URL/FileName/ isAsynchronous)
+        xhr.open("GET", "sample.txt");
+
+        xhr.onload = function () {
+          if (this.status == 200) console.log(this.responseText);
+        };
+
+        //old way of calling ajax
+        console.log(xhr.readyState); //1
+        xhr.onreadystatechange = function () {
+          console.log(this.readyState); //2,3,4
+          if (this.readyState == 4 && this.status == 200)
+            console.log("response: ", this.response);
+        };
+
+        //sends request
+        xhr.send();
       }
+
+      //* readyState
+      //0: request not initizalized
+      //1: server connection established
+      //2: request received
+      //3: processing request
+      //4: request finished and response is ready
+
+      //  * HTTP Status
+      //   Informational responses (100–199)
+      //   Successful responses (200–299)
+      //   Redirects (300–399)
+      //   Client errors (400–499)
+      //   Server errors (500–599)
+      //
     </script>
   </body>
 </html>
