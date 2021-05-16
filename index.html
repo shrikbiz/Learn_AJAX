@@ -14,6 +14,7 @@
 
       function onClick() {
         let xhr = new XMLHttpRequest();
+        console.log("in begning", xhr.readyState); //0: request not initizalized
 
         //xhr.open(typeOfRequest, URL/FileName/ isAsynchronous)
         xhr.open("GET", "sample.txt");
@@ -28,6 +29,10 @@
           console.log(this.readyState); //2,3,4
           if (this.readyState == 4 && this.status == 200)
             console.log("response: ", this.response);
+        };
+
+        xhr.onprogress = function () {
+          console.log("on progress", this.readyState); //3: processing request
         };
 
         //sends request
